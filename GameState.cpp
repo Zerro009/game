@@ -3,6 +3,7 @@
 GameState::GameState(StateData* stateData) : State(stateData) {
 	this->initView();
 	this->initKeybinds();
+	this->initKeytime();
 }
 
 GameState::~GameState() {
@@ -42,14 +43,15 @@ void GameState::initKeybinds() {
 	ifs.close();
 }
 
+void GameState::initKeytime() {
+}
+
 // Updates
 void GameState::updateView(const float dt) {
 }
 
-void GameState::updateInput(const float dt)
-{
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key(this->keybinds.at("CLOSE"))) && this->getKeytime())
-	{
+void GameState::updateInput(const float dt) {
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key(this->keybinds.at("CLOSE")))) {
 		this->endState();
 	}
 }

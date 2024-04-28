@@ -9,6 +9,7 @@ private:
 	// Inits
 	void		initView();
 	void		initKeybinds();
+	void		initKeytime();
 
 public:
 	GameState(StateData *stateData);

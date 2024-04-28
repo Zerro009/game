@@ -42,7 +42,7 @@ void MainMenuState::initFonts()
 
 void MainMenuState::initGui() {
 	this->buttons["GAME_STATE"] = new gui::Button(
-		200.f, 100.f,
+		80.f, 100.f,
 		100.f, 40.f,
 		&this->font, "New Game",
 		sf::Color(200, 200, 200, 200), sf::Color(255, 255, 255, 255), sf::Color(20, 20, 20, 50),
@@ -50,8 +50,26 @@ void MainMenuState::initGui() {
 		sf::Color(70, 70, 70, 0), sf::Color(150, 150, 150, 0), sf::Color(20, 20, 20, 0)
 	);
 
+	this->buttons["ONLINE_STATE"] = new gui::Button(
+		80.f, 180.f,
+		100.f, 40.f,
+		&this->font, "Online",
+		sf::Color(200, 200, 200, 200), sf::Color(255, 255, 255, 255), sf::Color(20, 20, 20, 50),
+		sf::Color(70, 70, 70, 0), sf::Color(150, 150, 150, 0), sf::Color(20, 20, 20, 0),
+		sf::Color(70, 70, 70, 0), sf::Color(150, 150, 150, 0), sf::Color(20, 20, 20, 0)
+	);
+
+	this->buttons["SETTINGS_STATE"] = new gui::Button(
+		80.f, 260.f,
+		100.f, 40.f,
+		&this->font, "Settings",
+		sf::Color(200, 200, 200, 200), sf::Color(255, 255, 255, 255), sf::Color(20, 20, 20, 50),
+		sf::Color(70, 70, 70, 0), sf::Color(150, 150, 150, 0), sf::Color(20, 20, 20, 0),
+		sf::Color(70, 70, 70, 0), sf::Color(150, 150, 150, 0), sf::Color(20, 20, 20, 0)
+	);
+
 	this->buttons["EXIT_STATE"] = new gui::Button(
-		200.f, 180.f,
+		80.f, 340.f,
 		100.f, 40.f,
 		&this->font, "Exit",
 		sf::Color(200, 200, 200, 200), sf::Color(255, 255, 255, 255), sf::Color(20, 20, 20, 50),
@@ -73,6 +91,11 @@ void MainMenuState::updateButtons() {
 	if (this->buttons["GAME_STATE"]->isPressed())
 	{
 		this->states->push(new GameState(this->stateData));
+	}
+
+	if (this->buttons["ONLINE_STATE"]->isPressed())
+	{
+		this->states->push(new OnlineMenuState(this->stateData));
 	}
 
 	//Quit the game

@@ -145,6 +145,7 @@
     <ClCompile Include="gui.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MainMenuState.cpp" />
+    <ClCompile Include="OnlineMenuState.cpp" />
     <ClCompile Include="State.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -153,6 +154,7 @@
     <ClInclude Include="Graphics.h" />
     <ClInclude Include="gui.h" />
     <ClInclude Include="MainMenuState.h" />
+    <ClInclude Include="OnlineMenuState.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="State.h" />
   </ItemGroup>

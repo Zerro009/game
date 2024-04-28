@@ -8,6 +8,7 @@ class StateData {
 public:
 	StateData() {};
 
+	sf::Event *event;
 	sf::RenderWindow* window;
 	Graphics* graphics;
 	std::map<std::string, int>* supportedKeys;
@@ -18,6 +19,7 @@ class State {
 protected:
 	StateData* stateData;
 	std::stack<State*>* states;
+	sf::Event* event;
 	sf::RenderWindow* window;
 	std::map<std::string, int>* supportedKeys;
 	std::map<std::string, int> keybinds;

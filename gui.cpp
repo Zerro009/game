@@ -124,3 +124,97 @@ void Button::render(sf::RenderTarget* target) {
 	target->draw(this->shape);
 	target->draw(this->text);
 }
+
+// InputField
+InputField::InputField(float x, float y, float width, float height,
+	sf::Font* font, std::string text,
+	sf::Color textColor, sf::Color textHoverColor, sf::Color textActiveColor,
+	sf::Color color, sf::Color hoverColor, sf::Color activeColor,
+	sf::Color borderColor, sf::Color borderHoverColor, sf::Color borderActiveColor,
+	short unsigned id) {
+
+	this->id = id;
+
+	this->shape.setPosition(sf::Vector2f(x, y));
+	this->shape.setSize(sf::Vector2f(width, height));
+	this->shape.setFillColor(color);
+	this->shape.setOutlineThickness(1.f);
+	this->shape.setOutlineColor(borderColor);
+
+	this->font = font;
+	this->text.setFont(*this->font);
+	this->text.setString(text);
+	this->text.setFillColor(textColor);
+	this->text.setCharacterSize(14);
+
+	this->text.setPosition(
+		this->shape.getPosition().x + (this->shape.getGlobalBounds().width / 2.f) - this->text.getGlobalBounds().width / 2.f,
+		this->shape.getPosition().y
+	);
+
+	this->textColor = textColor;
+	this->textHoverColor = textHoverColor;
+	this->textActiveColor = textActiveColor;
+
+	this->color = color;
+	this->hoverColor = hoverColor;
+	this->activeColor = activeColor;
+
+	this->borderColor = borderColor;
+	this->borderHoverColor = borderHoverColor;
+	this->borderActiveColor = borderActiveColor;
+}
+
+InputField::~InputField() {
+}
+
+// InputField Accessors
+const bool gui::InputField::isPressed() const
+{
+	if (this->state == INPUT_FIELD_ACTIVE)
+		return true;
+
+	return false;
+}
+
+const std::string gui::InputField::getText() const
+{
+	return this->text.getString();
+}
+
+const short unsigned& gui::InputField::getId() const
+{
+	return this->id;
+}
+
+// InputField Modifiers
+void gui::InputField::setText(const std::string text)
+{
+	this->text.setString(text);
+}
+
+void gui::InputField::setId(const short unsigned id)
+{
+	this->id = id;
+}
+
+// InputField Core
+void InputField::update(sf::Event *event) {
+	if (event->type == sf::Event::TextEntered) {
+		if (event->text.unicode == '\b') {
+			// Удалить последний введенный символ
+			if (!this->text.getString().isEmpty()) {
+				this->text.setString(this->text.getString().substring(0, this->text.getString().getSize() - 1));
+			}
+		}
+		else {
+			// Добавить введенный символ в текстовое поле
+			this->text.setString(this->text.getString() + event->text.unicode);
+		}
+	}
+}
+
+void InputField::render(sf::RenderTarget* target) {
+	target->draw(this->shape);
+	target->draw(this->text);
+}

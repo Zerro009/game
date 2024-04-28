@@ -2,6 +2,7 @@
 
 State::State(StateData* stateData) {
 	this->stateData = stateData;
+	this->event = stateData->event;
 	this->window = stateData->window;
 	this->supportedKeys = stateData->supportedKeys;
 	this->states = stateData->states;

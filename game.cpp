@@ -5,9 +5,15 @@ Game::Game() {
 	this->initGraphics();
 	this->initWindow();
 	this->initKeys();
+	this->initStateData();
+	this->initStates();
 }
 
 Game::~Game() {
+	while (!this->states.empty()) {
+		delete this->states.top();
+		this->states.pop();
+	}
 }
 
 // Inits
@@ -53,6 +59,18 @@ void Game::initKeys() {
 	ifs.close();
 }
 
+void Game::initStateData() {
+	this->stateData.window = this->window;
+	this->stateData.graphics = &this->graphics;
+	this->stateData.supportedKeys = &this->supportedKeys;
+	this->stateData.states = &this->states;
+}
+
+void Game::initStates()
+{
+	this->states.push(new MainMenuState(&this->stateData));
+}
+
 // Updates
 void Game::updateSFMLEvents() {
 	while (this->window->pollEvent(this->event)) {
@@ -66,16 +84,23 @@ void Game::updateSFMLEvents() {
 void Game::update() {
 	this->dt = this->dtClock.restart().asSeconds();
 	this->updateSFMLEvents();
+
+	if (!this->states.empty()) {
+		this->states.top()->update(this->dt);
+	}
 }
 
 void Game::render() {
 	this->window->clear();
 
+	if (!this->states.empty())
+		this->states.top()->render(this->window);
+
 	this->window->display();
 }
 
 void Game::run() {
-	while (this->window->isOpen()) {
+	while (this->window->isOpen() && !this->states.empty()) {
 		this->update();
 		this->render();
 	}

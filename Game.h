@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Graphics.h"
+#include "MainMenuState.h"
 
 class Game {
 private:
@@ -11,11 +11,16 @@ private:
 	sf::Clock dtClock;
 	std::map<std::string, int> supportedKeys;
 
+	StateData stateData;
+	std::stack<State*> states;
+
 	// Inits
 	void			initVariables();
 	void			initGraphics();
 	void			initWindow();
 	void			initKeys();
+	void			initStateData();
+	void			initStates();
 public:
 	Game();
 	virtual ~Game();

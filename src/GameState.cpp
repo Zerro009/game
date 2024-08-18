@@ -6,6 +6,8 @@ GameState::GameState(StateData* stateData) : State(stateData) {
 	this->initKeybinds();
 	this->initKeytime();
 	this->initPlayer();
+	this->initCamera();
+	this->initLevel();
 }
 
 GameState::~GameState() {
@@ -15,6 +17,7 @@ GameState::~GameState() {
 	if (this->client) {
 		delete this->client;
 	}
+	delete this->level;
 	delete this->player;
 }
 
@@ -65,14 +68,31 @@ void GameState::initPlayer() {
 	this->player = new Player(sf::Vector2f(0.f, 0.f));
 }
 
+void GameState::initCamera() {
+	sf::Vector2f center = this->player->getPos();
+	sf::Vector2f size = sf::Vector2f(
+		this->stateData->graphics->resolution.width,
+		this->stateData->graphics->resolution.height
+	);
+
+	this->camera = sf::View(
+		center,
+		size
+	);
+}
+
+void GameState::initLevel() {
+	this->level = new Level("./levels/arena.ini");
+}
+
 // Client-server
 void GameState::createClient() {
-	this->client = new network::Client(&this->players, "127.0.0.1");
+	this->client = new network::Client("127.0.0.1");
 	this->online_state = ONLINE;
 }
 
 void GameState::createServer() {
-	this->server = new network::Server(&this->players);
+	this->server = new network::Server();
 	this->online_state = HOST;
 }
 
@@ -107,6 +127,24 @@ void GameState::updatePlayerInput(const float dt) {
 	}
 }
 
+void GameState::updatePlayer(const float dt) {
+	if (!this->level->isAccessible(this->player->getNextPositionBounds(dt))) {
+		if (this->player->getVelocity().x != 0.f) {
+			this->player->stopVelocityX();
+		}
+		if (this->player->getVelocity().y != 0.f) {
+			this->player->stopVelocityY();
+		}
+	}
+	this->player->update(dt);
+}
+
+void GameState::updateCamera() {
+	this->camera.setCenter(
+		this->player->getPos()
+	);
+}
+
 void GameState::updateClient() {
 	if (this->client) {
 		this->client->listen();
@@ -125,21 +163,17 @@ void GameState::update(const float dt) {
 	this->updateMousePositions(&this->view);
 	this->updateInput(dt);
 	this->updatePlayerInput(dt);
-	this->player->update(dt);
+	this->updatePlayer(dt);
+	this->updateCamera();
+	this->level->update(dt);
 
 	this->updateClient();
 	this->updateServer();
-
-	for (auto it: this->players) {
-		it->update(dt);
-	}
 }
 
 void GameState::render(sf::RenderTarget* target) {
-	target->clear(sf::Color::Green);
-	this->player->render(target);
+	this->window->setView(this->camera);
 
-	for (auto it: this->players) {
-		it->render(target);
-	}
+	this->level->render(target);
+	this->player->render(target);
 }

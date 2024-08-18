@@ -17,6 +17,14 @@ public:
 	MovementComponent(sf::Vector2f *pos);
 	virtual ~MovementComponent();
 
+	// Accessors
+	sf::Vector2f		getVelocity();
+
+	// Modifiers
+	void			stopVelocity();
+	void			stopVelocityX();
+	void			stopVelocityY();
+
 	// Funcs
 	const bool		getState(const short unsigned state) const;
 	void			move(sf::Vector2f dir);

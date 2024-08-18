@@ -2,9 +2,8 @@
 
 using namespace network;
 
-Client::Client(std::vector<Player *> *players, sf::IpAddress serverIp) {
+Client::Client(sf::IpAddress serverIp) {
 	this->serverIp = serverIp;
-	this->players = players;
 
 	this->initListener();
 	this->initConnection();
@@ -56,8 +55,7 @@ void Client::send(sf::Vector2f pos) {
 	this->socket.send(&pkt, sizeof(pkt), this->serverIp, SERVER_PORT);
 }
 
-Server::Server(std::vector<Player *> *players) {
-	this->players = players;
+Server::Server() {
 	this->initListener();
 }
 

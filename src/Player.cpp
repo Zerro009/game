@@ -14,17 +14,35 @@ Player::~Player() {
 // Inits
 void Player::initComponents() {
 	this->createMovementComponent();
+	this->createHitboxComponent(0.f, 0.f, 20.f, 20.f);
+}
+
+// Accessors
+sf::Vector2f Player::getVelocity() {
+	return this->movementComponent->getVelocity();
+}
+
+// Modifiers
+void Player::stopVelocity() {
+	this->movementComponent->stopVelocity();
+}
+
+void Player::stopVelocityX() {
+	this->movementComponent->stopVelocityX();
+}
+
+void Player::stopVelocityY() {
+	this->movementComponent->stopVelocityY();
 }
 
 // Updates
 void Player::updateComponents(const float dt) {
 	this->movementComponent->update(dt);
+	this->hitboxComponent->update();
 }
 
 void Player::updateSprite() {
-	int x = this->pos.x * 0.8;
-	int y = (this->pos.y + (this->pos.x / 2)) * 0.8;
-	this->sprite.setPosition(sf::Vector2f(x, y));
+	this->sprite.setPosition(pos);
 }
 
 // Core
@@ -35,4 +53,5 @@ void Player::update(const float dt) {
 
 void Player::render(sf::RenderTarget *target) {
 	target->draw(this->sprite);
+	this->hitboxComponent->render(target);
 }

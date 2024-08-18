@@ -22,6 +22,7 @@ namespace network {
 	struct client_data {
 		sf::IpAddress		ip;
 		sf::Vector2f		pos;
+		Player			*player;
 		unsigned int		time;
 	};
 
@@ -30,7 +31,6 @@ namespace network {
 		sf::UdpSocket		listener;
 		sf::UdpSocket		socket;
 		sf::IpAddress		serverIp;
-		std::vector<Player *>	*players;
 
 		// Inits
 		void			initListener();
@@ -39,7 +39,7 @@ namespace network {
 		// Funcs
 		void			actionDispatcher(void *data);
 	public:
-		Client(std::vector<Player *> *players, sf::IpAddress serverIp);
+		Client(sf::IpAddress serverIp);
 		virtual ~Client();
 
 		// Core
@@ -51,7 +51,6 @@ namespace network {
 	private:
 		sf::UdpSocket				listener;
 		std::vector<client_data>		clients;
-		std::vector<Player *>			*players;
 
 		// Inits
 		void					initListener();
@@ -59,7 +58,7 @@ namespace network {
 		// Funcs
 		void					actionDispatcher(void *data, sf::IpAddress ip);
 	public:
-		Server(std::vector<Player *> *players);
+		Server();
 		virtual ~Server();
 
 		// Accessors

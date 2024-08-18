@@ -2,6 +2,7 @@
 
 #include "State.h"
 #include "Player.h"
+#include "Level.h"
 #include "network.h"
 
 enum online_state {
@@ -14,12 +15,13 @@ class GameState : public State {
 private:
 	sf::View		view;
 	Player			*player;
-	std::vector<Player *>	players;
+	Level			*level;
 
 	network::Client	*client;
 	network::Server	*server;
 	short unsigned	online_state;
 
+	sf::View	camera;
 	
 	// Inits
 	void		initVariables();
@@ -27,6 +29,8 @@ private:
 	void		initKeybinds();
 	void		initKeytime();
 	void		initPlayer();
+	void		initCamera();
+	void		initLevel();
 
 	// Client-server
 	void		createClient();
@@ -40,6 +44,8 @@ public:
 	void		updateView(const float dt);
 	void		updateInput(const float dt);
 	void		updatePlayerInput(const float dt);
+	void		updatePlayer(const float dt);
+	void		updateCamera();
 	void		updateClient();
 	void		updateServer();
 

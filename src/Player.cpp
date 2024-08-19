@@ -13,7 +13,8 @@ Player::~Player() {
 
 // Inits
 void Player::initComponents() {
-	this->createMovementComponent();
+	this->createAttributeComponent();
+	this->createMovementComponent(64.f);
 	this->createHitboxComponent(0.f, 0.f, 20.f, 20.f);
 }
 

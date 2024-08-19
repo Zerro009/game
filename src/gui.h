@@ -99,5 +99,24 @@ namespace gui {
 		void		update(sf::Event *event);
 		void		render(sf::RenderTarget* target);
 	};
+
+	// ProgessBar
+	class ProgressBar {
+	private:
+		sf::RectangleShape	bar;
+		sf::RectangleShape	background;
+
+		float		current;
+		float		max;
+	public:
+		ProgressBar(float x, float y, float width, float height,
+				float current, float max, std::string text,
+				sf::Color border, sf::Color color, sf::Color background);
+		virtual ~ProgressBar();
+
+		// Core
+		void		update();
+		void		render(sf::RenderTarget *target);
+	};
 };
 

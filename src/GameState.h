@@ -2,8 +2,10 @@
 
 #include "State.h"
 #include "Player.h"
+#include "Enemy.h"
 #include "Level.h"
 #include "network.h"
+#include "gui.h"
 
 enum online_state {
 	OFFLINE,
@@ -15,14 +17,17 @@ class GameState : public State {
 private:
 	sf::View		view;
 	Player			*player;
+	Enemy			*enemy;
 	Level			*level;
 
-	network::Client	*client;
-	network::Server	*server;
-	short unsigned	online_state;
+	network::Client		*client;
+	network::Server		*server;
+	short unsigned		online_state;
 
-	sf::View	camera;
+	sf::View		camera;
 	
+	gui::ProgressBar	*hpBar;
+
 	// Inits
 	void		initVariables();
 	void		initView();
@@ -31,6 +36,8 @@ private:
 	void		initPlayer();
 	void		initCamera();
 	void		initLevel();
+	void		initEnemies();
+	void		initGui();
 
 	// Client-server
 	void		createClient();
@@ -46,6 +53,9 @@ public:
 	void		updatePlayerInput(const float dt);
 	void		updatePlayer(const float dt);
 	void		updateCamera();
+	void		updateEnemiesAi();
+	void		updateEnemies(const float dt);
+	void		updateGui();
 	void		updateClient();
 	void		updateServer();
 

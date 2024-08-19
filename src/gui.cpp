@@ -218,3 +218,55 @@ void InputField::render(sf::RenderTarget* target) {
 	target->draw(this->shape);
 	target->draw(this->text);
 }
+
+// ProgressBar
+ProgressBar::ProgressBar(float x, float y, float width, float height,
+				float current, float max, std::string text,
+				sf::Color border, sf::Color color, sf::Color background) {
+	this->current = current;
+	this->max = max;
+
+	float fraction = current / max;
+
+	this->bar.setPosition(
+		sf::Vector2f(
+			x + 1,
+			y + 1
+		)
+	);
+	this->bar.setSize(
+		sf::Vector2f(
+			width * fraction - 2,
+			height - 2
+		)
+	);
+	this->bar.setFillColor(color);
+
+	this->background.setPosition(
+		sf::Vector2f(
+			x,
+			y
+		)
+	);
+	this->background.setSize(
+		sf::Vector2f(
+			width,
+			height
+		)
+	);
+	this->background.setFillColor(background);
+	this->background.setOutlineThickness(-1.f);
+	this->background.setOutlineColor(border);
+}
+
+ProgressBar::~ProgressBar() {
+}
+
+// Core
+void ProgressBar::update() {
+}
+
+void ProgressBar::render(sf::RenderTarget *target) {
+	target->draw(background);
+	target->draw(bar);
+}

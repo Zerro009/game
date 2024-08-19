@@ -22,6 +22,8 @@ public:
 	void		updateComponents(const float dt);
 	void		updateSprite();
 
+	// Funcs
+
 	// Core
 	void		update(const float dt);
 	void		render(sf::RenderTarget *target);

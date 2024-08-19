@@ -1,10 +1,10 @@
 #include "MovementComponent.h"
 
-MovementComponent::MovementComponent(sf::Vector2f *pos) {
+MovementComponent::MovementComponent(sf::Vector2f *pos, float maxVelocity) {
 	this->pos = pos;
 
 	this->velocity = sf::Vector2f(0.f, 0.f);
-	this->maxVelocity = 50.f;
+	this->maxVelocity = maxVelocity;
 }
 
 MovementComponent::~MovementComponent() {

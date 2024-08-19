@@ -14,7 +14,7 @@ private:
 	sf::Vector2f		velocity;
 	float			maxVelocity;
 public:
-	MovementComponent(sf::Vector2f *pos);
+	MovementComponent(sf::Vector2f *pos, float maxVelocity);
 	virtual ~MovementComponent();
 
 	// Accessors

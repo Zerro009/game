@@ -14,7 +14,15 @@ gcc -c src/HitboxComponent.cpp -o hitboxcomponent.o
 
 g++ -c src/MovementComponent.cpp -o movementcomponent.o
 
+g++ -c src/AttributeComponent.cpp -o attributecomponent.o
+
+g++ -c src/AIComponent.cpp -o aicomponent.o
+
+g++ -c src/AIFollow.cpp -o aifollow.o
+
 g++ -c src/Entity.cpp -o entity.o
+
+g++ -c src/Enemy.cpp -o enemy.o
 
 g++ -c src/Player.cpp -o player.o
 
@@ -30,7 +38,7 @@ g++ -c src/Game.cpp -o game.o
 
 g++ -c src/main.cpp -o main.o
 
-g++ -g -Wall -lm -lsfml-system -lsfml-graphics -lsfml-window -lsfml-network graphics.o network.o gui.o tile.o level.o hitboxcomponent.o movementcomponent.o entity.o player.o state.o gamestate.o mainmenustate.o onlinemenustate.o game.o main.o -o run
+g++ -g -Wall -lm -lsfml-system -lsfml-graphics -lsfml-window -lsfml-network graphics.o network.o gui.o tile.o level.o hitboxcomponent.o movementcomponent.o attributecomponent.o aicomponent.o aifollow.o entity.o enemy.o player.o state.o gamestate.o mainmenustate.o onlinemenustate.o game.o main.o -o run
 
 # Clear
 rm *.o

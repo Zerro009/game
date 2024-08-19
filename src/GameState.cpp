@@ -8,6 +8,8 @@ GameState::GameState(StateData* stateData) : State(stateData) {
 	this->initPlayer();
 	this->initCamera();
 	this->initLevel();
+	this->initEnemies();
+	this->initGui();
 }
 
 GameState::~GameState() {
@@ -17,6 +19,8 @@ GameState::~GameState() {
 	if (this->client) {
 		delete this->client;
 	}
+	delete this->hpBar;
+	delete this->enemy;
 	delete this->level;
 	delete this->player;
 }
@@ -65,7 +69,7 @@ void GameState::initKeytime() {
 }
 
 void GameState::initPlayer() {
-	this->player = new Player(sf::Vector2f(0.f, 0.f));
+	this->player = new Player(sf::Vector2f(32.f, 32.f));
 }
 
 void GameState::initCamera() {
@@ -81,8 +85,24 @@ void GameState::initCamera() {
 	);
 }
 
+void GameState::initEnemies() {
+	this->enemy = new Enemy(sf::Vector2f(96.f, 96.f), this->player);
+}
+
 void GameState::initLevel() {
 	this->level = new Level("./levels/arena.ini");
+}
+
+void GameState::initGui() {
+	this->hpBar = new gui::ProgressBar(
+		20.f, 20.f, 100.f, 20.f,
+		this->player->getHp(),
+		this->player->getHpMax(),
+		"HP",
+		sf::Color::White,
+		sf::Color::Red,
+		sf::Color::Black
+	);
 }
 
 // Client-server
@@ -128,13 +148,14 @@ void GameState::updatePlayerInput(const float dt) {
 }
 
 void GameState::updatePlayer(const float dt) {
+	// Collision with enemy
+	if (this->player->getNextPositionBounds(dt).intersects(this->enemy->getNextPositionBounds(dt))) {
+		this->player->stopVelocity();
+	}
+
+	// Collision with level unaccessible places
 	if (!this->level->isAccessible(this->player->getNextPositionBounds(dt))) {
-		if (this->player->getVelocity().x != 0.f) {
-			this->player->stopVelocityX();
-		}
-		if (this->player->getVelocity().y != 0.f) {
-			this->player->stopVelocityY();
-		}
+		this->player->stopVelocity();
 	}
 	this->player->update(dt);
 }
@@ -143,6 +164,22 @@ void GameState::updateCamera() {
 	this->camera.setCenter(
 		this->player->getPos()
 	);
+}
+
+void GameState::updateEnemiesAi() {
+	this->enemy->getAiComponent()->execute();
+}
+
+void GameState::updateEnemies(const float dt) {
+	if (this->enemy->getNextPositionBounds(dt).intersects(this->player->getNextPositionBounds(dt))) {
+		this->enemy->stopVelocity();
+	}
+
+	this->enemy->update(dt);
+}
+
+void GameState::updateGui() {
+	this->hpBar->update();
 }
 
 void GameState::updateClient() {
@@ -167,6 +204,11 @@ void GameState::update(const float dt) {
 	this->updateCamera();
 	this->level->update(dt);
 
+	this->updateEnemiesAi();
+	this->updateEnemies(dt);
+
+	this->updateGui();
+
 	this->updateClient();
 	this->updateServer();
 }
@@ -176,4 +218,9 @@ void GameState::render(sf::RenderTarget* target) {
 
 	this->level->render(target);
 	this->player->render(target);
+	this->enemy->render(target);
+
+	this->window->setView(this->window->getDefaultView());
+
+	this->hpBar->render(target);
 }

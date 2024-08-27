@@ -118,5 +118,25 @@ namespace gui {
 		void		update();
 		void		render(sf::RenderTarget *target);
 	};
+
+	// Frame
+	class Frame {
+	private:
+		sf::RectangleShape	shape;
+		std::string		title;
+
+		sf::Color		border;
+		sf::Color		background;
+	public:
+		Frame(float x, float y, float width, float height,
+			std::string title,
+			sf::Color border, sf::Color background);
+		virtual ~Frame();
+
+		// Core
+		void		update(sf::Vector2i mousePosWindow);
+		void		render(sf::RenderTarget *target);
+	};
+		
 };
 

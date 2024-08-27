@@ -3,29 +3,34 @@
 #include "AttributeComponent.h"
 #include "HitboxComponent.h"
 #include "MovementComponent.h"
+#include "AnimationComponent.h"
 #include "AIFollow.h"
 
 class Entity {
 private:
 	void			initComponents();
 protected:
-	sf::RectangleShape	sprite;
+	sf::Sprite		sprite;
 
 	sf::Vector2f		pos;
 
 	AttributeComponent	*attributeComponent;
 	HitboxComponent		*hitboxComponent;
 	MovementComponent	*movementComponent;
+	AnimationComponent	*animationComponent;
 	AIComponent		*aiComponent;
 public:
 	Entity(sf::Vector2f pos);
 	virtual ~Entity();
 
 	// Components
+	void			setTexture(sf::Texture *texture);
 	void			createAttributeComponent();
 	void			createHitboxComponent(float offsetX, float offsetY, float width, float height);
 	void			createMovementComponent(float maxVelocity);
+	void			createAnimationComponent(sf::Texture *texture);
 
+	AnimationComponent	*getAnimationComponent();
 	AIComponent		*getAiComponent();
 
 	// Accessors

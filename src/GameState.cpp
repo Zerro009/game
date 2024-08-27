@@ -19,6 +19,7 @@ GameState::~GameState() {
 	if (this->client) {
 		delete this->client;
 	}
+	delete this->pmenu;
 	delete this->hpBar;
 	delete this->enemy;
 	delete this->level;
@@ -69,7 +70,10 @@ void GameState::initKeytime() {
 }
 
 void GameState::initPlayer() {
-	this->player = new Player(sf::Vector2f(32.f, 32.f));
+	if (!this->playerTexture.loadFromFile("./resources/textures/man.png")) {
+		std::cerr << "Can't load player texture!" << std::endl ;
+	}
+	this->player = new Player(sf::Vector2f(32.f, 32.f), &this->playerTexture);
 }
 
 void GameState::initCamera() {
@@ -103,6 +107,9 @@ void GameState::initGui() {
 		sf::Color::Red,
 		sf::Color::Black
 	);
+
+	sf::Font f;
+	this->pmenu = new Menu(&this->stateData->graphics->resolution, &f);
 }
 
 // Client-server
@@ -122,7 +129,11 @@ void GameState::updateView(const float dt) {
 
 void GameState::updateInput(const float dt) {
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key(this->keybinds.at("CLOSE")))) {
-		this->endState();
+		if (!this->paused) {
+			this->pauseState();
+		} else {
+			this->unpauseState();
+		}
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key(this->keybinds.at("HOST"))) && this->online_state == OFFLINE) {
 		this->createServer();
@@ -180,6 +191,7 @@ void GameState::updateEnemies(const float dt) {
 
 void GameState::updateGui() {
 	this->hpBar->update();
+	this->pmenu->update(this->mousePosWindow);
 }
 
 void GameState::updateClient() {
@@ -220,7 +232,12 @@ void GameState::render(sf::RenderTarget* target) {
 	this->player->render(target);
 	this->enemy->render(target);
 
+	// GUI part
 	this->window->setView(this->window->getDefaultView());
 
 	this->hpBar->render(target);
+
+	if (this->paused) {
+		this->pmenu->render(target);
+	}
 }

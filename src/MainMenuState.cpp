@@ -41,19 +41,19 @@ void MainMenuState::initFonts()
 
 
 void MainMenuState::initGui() {
-	this->buttons["GAME_STATE"] = new gui::Button(
+	this->buttons["CONTINUE"] = new gui::Button(
 		80.f, 100.f,
 		100.f, 40.f,
-		&this->font, "New Game",
+		&this->font, "Continue",
 		sf::Color(200, 200, 200, 200), sf::Color(255, 255, 255, 255), sf::Color(20, 20, 20, 50),
 		sf::Color(70, 70, 70, 0), sf::Color(150, 150, 150, 0), sf::Color(20, 20, 20, 0),
 		sf::Color(70, 70, 70, 0), sf::Color(150, 150, 150, 0), sf::Color(20, 20, 20, 0)
 	);
 
-	this->buttons["ONLINE_STATE"] = new gui::Button(
+	this->buttons["NEW_GAME"] = new gui::Button(
 		80.f, 180.f,
 		100.f, 40.f,
-		&this->font, "Online",
+		&this->font, "New game",
 		sf::Color(200, 200, 200, 200), sf::Color(255, 255, 255, 255), sf::Color(20, 20, 20, 50),
 		sf::Color(70, 70, 70, 0), sf::Color(150, 150, 150, 0), sf::Color(20, 20, 20, 0),
 		sf::Color(70, 70, 70, 0), sf::Color(150, 150, 150, 0), sf::Color(20, 20, 20, 0)
@@ -88,14 +88,14 @@ void MainMenuState::updateButtons() {
 	}
 
 	//New game
-	if (this->buttons["GAME_STATE"]->isPressed())
+	if (this->buttons["CONTINUE"]->isPressed())
 	{
 		this->states->push(new GameState(this->stateData));
 	}
 
-	if (this->buttons["ONLINE_STATE"]->isPressed())
+	if (this->buttons["NEW_GAME"]->isPressed())
 	{
-		this->states->push(new OnlineMenuState(this->stateData));
+		this->states->push(new HeroCreateState(this->stateData));
 	}
 
 	//Quit the game

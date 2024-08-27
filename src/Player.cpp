@@ -1,21 +1,22 @@
 #include "Player.h"
 
-Player::Player(sf::Vector2f pos) : Entity(pos) {
-	this->sprite.setSize(sf::Vector2f(20.f, 20.f));
+Player::Player(sf::Vector2f pos, sf::Texture *texture) : Entity(pos) {
 	this->sprite.setPosition(this->pos);
-	this->sprite.setFillColor(sf::Color::Black);
 
-	this->initComponents();
+	this->createAttributeComponent();
+	this->createMovementComponent(64.f);
+	this->createHitboxComponent(0.f, 0.f, 32.f, 32.f);
+	this->createAnimationComponent(texture);
+
+	this->initAnimations();
 }
 
 Player::~Player() {
 }
 
 // Inits
-void Player::initComponents() {
-	this->createAttributeComponent();
-	this->createMovementComponent(64.f);
-	this->createHitboxComponent(0.f, 0.f, 20.f, 20.f);
+void Player::initAnimations() {
+	this->animationComponent->addAnimation("IDLE", 15.f, 0, 0, 1, 0, 32, 32);
 }
 
 // Accessors
@@ -37,8 +38,15 @@ void Player::stopVelocityY() {
 }
 
 // Updates
+void Player::updateAnimation(const float dt) {
+	if (this->movementComponent->getState(IDLE)) {
+		this->animationComponent->play("IDLE", dt);
+	}
+}
+
 void Player::updateComponents(const float dt) {
 	this->movementComponent->update(dt);
+	this->updateAnimation(dt);
 	this->hitboxComponent->update();
 }
 

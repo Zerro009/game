@@ -3,6 +3,7 @@
 #include "gui.h"
 #include "GameState.h"
 #include "OnlineMenuState.h"
+#include "HeroCreateState.h"
 
 class MainMenuState : public State {
 private:

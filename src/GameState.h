@@ -6,6 +6,7 @@
 #include "Level.h"
 #include "network.h"
 #include "gui.h"
+#include "Menu.h"
 
 enum online_state {
 	OFFLINE,
@@ -16,7 +17,10 @@ enum online_state {
 class GameState : public State {
 private:
 	sf::View		view;
+
+	sf::Texture		playerTexture;
 	Player			*player;
+
 	Enemy			*enemy;
 	Level			*level;
 
@@ -27,6 +31,7 @@ private:
 	sf::View		camera;
 	
 	gui::ProgressBar	*hpBar;
+	Menu			*pmenu;
 
 	// Inits
 	void		initVariables();

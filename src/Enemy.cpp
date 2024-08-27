@@ -2,10 +2,7 @@
 
 Enemy::Enemy(sf::Vector2f pos, Entity *entity) : Entity(pos) {
 	this->entity = entity;
-
-	this->sprite.setSize(sf::Vector2f(20.f, 20.f));
 	this->sprite.setPosition(this->pos);
-	this->sprite.setFillColor(sf::Color::Red);
 
 	this->initComponents();
 }
@@ -38,6 +35,6 @@ void Enemy::update(const float dt) {
 }
 
 void Enemy::render(sf::RenderTarget *target) {
-	target->draw(this->sprite);
+	//target->draw(this->sprite);
 	this->hitboxComponent->render(target);
 }

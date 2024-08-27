@@ -8,6 +8,7 @@ Entity::Entity(sf::Vector2f pos) {
 
 Entity::~Entity() {
 	delete this->aiComponent;
+	delete this->animationComponent;
 	delete this->movementComponent;
 	delete this->hitboxComponent;
 	delete this->attributeComponent;
@@ -18,10 +19,15 @@ void Entity::initComponents() {
 	this->attributeComponent = NULL;
 	this->hitboxComponent = NULL;
 	this->movementComponent = NULL;
+	this->animationComponent = NULL;
 	this->aiComponent = NULL;
 }
 
 // Components
+void Entity::setTexture(sf::Texture *texture) {
+	this->sprite.setTexture(*texture);
+}
+
 void Entity::createAttributeComponent() {
 	this->attributeComponent = new AttributeComponent();
 }
@@ -32,6 +38,14 @@ void Entity::createHitboxComponent(float offsetX, float offsetY, float width, fl
 
 void Entity::createMovementComponent(float maxVelocity) {
 	this->movementComponent = new MovementComponent(&this->pos, maxVelocity);
+}
+
+void Entity::createAnimationComponent(sf::Texture *texture) {
+	this->animationComponent = new AnimationComponent(&this->sprite, texture);
+}
+
+AnimationComponent *Entity::getAnimationComponent() {
+	return this->animationComponent;
 }
 
 AIComponent* Entity::getAiComponent() {

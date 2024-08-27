@@ -270,3 +270,25 @@ void ProgressBar::render(sf::RenderTarget *target) {
 	target->draw(background);
 	target->draw(bar);
 }
+
+// Frame
+Frame::Frame(float x, float y, float width, float height, std::string title,
+		sf::Color border, sf::Color background) : title(title), border(border), background(background) {
+
+	this->shape.setSize(sf::Vector2f(width, height));
+	this->shape.setPosition(sf::Vector2f(x, y));
+	this->shape.setOutlineThickness(-1.f);
+	this->shape.setOutlineColor(border);
+	this->shape.setFillColor(background);
+}
+
+Frame::~Frame() {
+}
+
+void Frame::update(sf::Vector2i mousePosWindow) {
+
+}
+
+void Frame::render(sf::RenderTarget *target) {
+	target->draw(this->shape);
+}

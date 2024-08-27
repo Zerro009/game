@@ -5,9 +5,9 @@
 class Player : public Entity {
 private:
 	// Inits
-	void		initComponents();
+	void		initAnimations();
 public:
-	Player(sf::Vector2f pos);
+	Player(sf::Vector2f pos, sf::Texture *texture);
 	virtual ~Player();
 
 	// Accessors
@@ -19,10 +19,13 @@ public:
 	void		stopVelocityY();
 
 	// Updates
+	void		updateAnimation(const float dt);
 	void		updateComponents(const float dt);
 	void		updateSprite();
 
 	// Funcs
+
+	// Updates
 
 	// Core
 	void		update(const float dt);

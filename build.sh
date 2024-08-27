@@ -6,6 +6,8 @@ g++ -c src/network.cpp -o network.o
 
 g++ -c src/gui.cpp -o gui.o
 
+g++ -c src/Menu.cpp -o menu.o
+
 g++ -c src/Tile.cpp -o tile.o
 
 g++ -c src/Level.cpp -o level.o
@@ -15,6 +17,8 @@ gcc -c src/HitboxComponent.cpp -o hitboxcomponent.o
 g++ -c src/MovementComponent.cpp -o movementcomponent.o
 
 g++ -c src/AttributeComponent.cpp -o attributecomponent.o
+
+g++ -c src/AnimationComponent.cpp -o animationcomponent.o
 
 g++ -c src/AIComponent.cpp -o aicomponent.o
 
@@ -32,13 +36,13 @@ g++ -c src/GameState.cpp -o gamestate.o
 
 g++ -c src/MainMenuState.cpp -o mainmenustate.o
 
-g++ -c src/OnlineMenuState.cpp -o onlinemenustate.o
+g++ -c src/HeroCreateState.cpp -o herocreatestate.o
 
 g++ -c src/Game.cpp -o game.o
 
 g++ -c src/main.cpp -o main.o
 
-g++ -g -Wall -lm -lsfml-system -lsfml-graphics -lsfml-window -lsfml-network graphics.o network.o gui.o tile.o level.o hitboxcomponent.o movementcomponent.o attributecomponent.o aicomponent.o aifollow.o entity.o enemy.o player.o state.o gamestate.o mainmenustate.o onlinemenustate.o game.o main.o -o run
+g++ -g -Wall -lm -lsfml-system -lsfml-graphics -lsfml-window -lsfml-network graphics.o network.o gui.o menu.o tile.o level.o hitboxcomponent.o movementcomponent.o attributecomponent.o animationcomponent.o aicomponent.o aifollow.o entity.o enemy.o player.o state.o gamestate.o mainmenustate.o herocreatestate.o game.o main.o -o run
 
 # Clear
 rm *.o
